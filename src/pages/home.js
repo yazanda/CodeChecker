@@ -1,10 +1,11 @@
 import '../styles/Home.css';
 import React, {useState} from 'react';
+import axios from 'axios';
 import { Button } from 'react-bootstrap';
 import { FaUpload } from 'react-icons/fa';
 import Header from '../components/header';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import storage from '../backend/config/firebase'
+import storage from '../config/firebase'
 
 function Home() {
     const [file, setFile] = useState(null);
@@ -23,19 +24,21 @@ function Home() {
         setUploading(true);
 
         try {
-            // Upload file to Firebase Storage
+            
             const storageRef = ref(storage, file.name);
             await uploadBytes(storageRef, file);
 
-            // Get download URL for the uploaded file
             const downloadURL = await getDownloadURL(ref(storage, file.name));
+
+            // const response = await fetch(downloadURL);
+            // const fileContent = await response.text();
 
             console.log('File uploaded successfully:', downloadURL);
 
-            // Perform compilation (replace this with your compilation logic)
+            // console.log(fileContent);
+
             console.log('Compiling file...');
 
-            // Reset file state
             setFile(null);
         } catch (error) {
             console.error('Error uploading file:', error);
