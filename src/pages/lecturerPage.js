@@ -94,7 +94,6 @@ function TeacherPage() {
                 <option value="cpp">C++</option>
                 <option value="nodejs">NodeJS</option>
               </select>
-              <input className="form-input" type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} required />
               <input className="form-input" type="text" value={studentIds} onChange={(e) => setStudentIds(e.target.value)} placeholder="Student IDs (comma-separated)" required />
               <button type="submit" className="button">Add Exercise</button>
             </form>

@@ -5,9 +5,10 @@
 }
 
 .sidebar {
-  width: 250px;
+  width: 20%;
   background-color: #f0f0f0;
   padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .content {
@@ -21,6 +22,27 @@
   justify-content: space-between;
   background-color: #e0e0e0;
   padding: 10px 20px;
+}
+.sidebar h4 {
+  margin-bottom: 20px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+.sidebar li:hover {
+  background-color: #537390;
+}
+.homework-info {
+  display: flex;
+  gap: 20px;
 }
 
 .logo {

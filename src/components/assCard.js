@@ -36,10 +36,11 @@ function AssCard({ exercise, onSave, onDelete, onDefineTests }) {
         </>
       ) : (
         <>
+        <div className='card-info'>
           <h3 className="card-title">{exercise.courseName}: {exercise.assignmentName}</h3>
           <p className="card-language">Language: {exercise.codeLanguage}</p>
-          <p className="card-due-date">Due Date: {exercise.dueDate}</p>
-          <p className="card-student-ids">Students: {exercise.studentIds.join(', ')}</p>
+          {/* <p className="card-student-ids">Students: {exercise.studentIds.join(', ')}</p> */}
+        </div>
           <div className="card-actions">
             <button className="button edit-button" onClick={() => setIsEditing(true)}>Edit</button>
             <button className="button delete-button" onClick={() => onDelete(exercise.id)}>Delete</button>
