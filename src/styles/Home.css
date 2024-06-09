@@ -5,10 +5,42 @@
 }
 
 .sidebar {
-  width: 20%;
+  width: 12%;
   background-color: #f0f0f0;
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5%;
+}
+
+.tests-bar {
+  
+  width: 12%;
+  background-color: #f0f0f0;
+  /* padding: 20px; */
+  margin-left: 10px;
+  border-radius: 5%;
+}
+
+.tests-bar h4 {
+  margin: 20px;
+  margin-top: 40px;
+  
+}
+
+.tests-bar button {
+  padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 280%;
+    margin-left: 10%;
+    width: 80%;
+}
+
+.tests-bar button:hover {
+  background-color: #218838;
 }
 
 .content {
@@ -22,6 +54,7 @@
   justify-content: space-between;
   background-color: #e0e0e0;
   padding: 10px 20px;
+  border-radius: 5%;
 }
 .sidebar h4 {
   margin-bottom: 20px;
@@ -35,10 +68,12 @@
 .sidebar li {
   padding: 10px 0;
   cursor: pointer;
+  margin-left: 10px;
 }
 
 .sidebar li:hover {
   background-color: #537390;
+  border-radius: 5%;
 }
 .homework-info {
   display: flex;
@@ -158,4 +193,21 @@
   font-size: 14px;
   color: #333;
   word-wrap: break-word; /* Ensures the filename wraps and does not overflow the container */
+}
+
+.tests {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.test-label {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: #333;
+}
+
+.test-checkbox {
+  margin-right: 10px;
 }

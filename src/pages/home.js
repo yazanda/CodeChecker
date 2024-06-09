@@ -17,9 +17,18 @@ function Home() {
     const [isCompiled, setIsCompiled] = useState(false);
     const [exercises, setExercises] = useState([]);
     const [selectedExercise, setSelectedExercise] = useState(null);
+    const [tests, setTests] = useState([]);
 
     useEffect(() => {
         fetchExercises();
+
+        const fetchedTests = [
+            { id: 1, name: 'Test 1' },
+            { id: 2, name: 'Test 2' },
+            { id: 3, name: 'Test 3' },
+            // Add more test objects as needed
+        ];
+        setTests(fetchedTests);
     }, []);
 
     const handleFileChange = async (event) => {
@@ -87,6 +96,7 @@ function Home() {
     return (
         <div className="container">
             <div className="sidebar">
+                <h2>Hi Yazan :)</h2>
                 <h4>Assignments</h4>
                 <ul>
                     {exercises.map((homework) => (
@@ -95,6 +105,18 @@ function Home() {
                         </li>
                     ))}
                 </ul>
+            </div>
+            <div className='tests-bar'>
+                <h4>Tests</h4>
+                <div className='test'>
+                    {tests.map((test) => (
+                            <label key={test.id} className="test-label">
+                                <input type="checkbox" className="test-checkbox" />
+                                {test.name}
+                            </label>
+                        ))}
+                </div>
+                <button>Run</button>
             </div>
             <div className="content">
                 <div className="header">
