@@ -1,213 +1,137 @@
-/* Home.css */
-.container {
-  display: flex;
-  height: 100vh;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+html, body {
+  height: 100%;
 }
 
-.sidebar {
-  width: 12%;
-  background-color: #f0f0f0;
-  padding: 20px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  border-radius: 5%;
-}
-
-.tests-bar {
-  
-  width: 12%;
-  background-color: #f0f0f0;
-  /* padding: 20px; */
-  margin-left: 10px;
-  border-radius: 5%;
-}
-
-.tests-bar h4 {
-  margin: 20px;
-  margin-top: 40px;
-  
-}
-
-.tests-bar button {
-  padding: 10px 20px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 280%;
-    margin-left: 10%;
-    width: 80%;
-}
-
-.tests-bar button:hover {
-  background-color: #218838;
-}
-
-.content {
-  flex-grow: 1;
-  padding: 20px;
-}
-
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #e0e0e0;
-  padding: 10px 20px;
-  border-radius: 5%;
-}
-.sidebar h4 {
-  margin-bottom: 20px;
-}
-
-.sidebar ul {
-  list-style: none;
+* {
+  margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
-.sidebar li {
-  padding: 10px 0;
-  cursor: pointer;
-  margin-left: 10px;
-}
-
-.sidebar li:hover {
-  background-color: #537390;
-  border-radius: 5%;
-}
-.homework-info {
+.student-container {
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Poppins', sans-serif;
+  background-color: rgb(227, 238, 233);
+  min-height: 100vh;
 }
 
-.logo {
-  font-weight: bold;
-  font-size: 24px;
-}
-
-.upload-area {
-  margin-top: 20px;
-  border: 2px dashed #ccc;
-  padding: 30px;
-  text-align: center;
-}
-
-.compile-output {
-  margin-top: 20px;
-  background-color: #e0e0e0;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.compilation-status span.success {
-  color: #28a745; /* Green color for success */
-}
-
-.compilation-status span.error {
-  color: #dc3545; /* Red color for errors */
-}
-
-.compilation-output {
-  margin-top: 10px; /* Optional: Adds some space between status and output */
-}
-
-
-/* Button Basic Style */
-.button {
-  margin-top: 20px;
-  display: inline-block;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
-  outline: none;
-  color: #fff;
-  background-color: #4CAF50;
-  border: none;
-  border-radius: 5px;
-  box-shadow: 0 6px #999;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-/* Button Hover & Active State */
-.button:hover {background-color: #3e8e41}
-
-.button:active {
-  background-color: #3e8e41;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
-}
-
-/* Disabled Button Style */
-.button:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-.file-upload-container {
-  margin-top: 20px;
-  text-align: center;
-  padding: 20px;
-  border: 2px dashed #007bff;
-  border-radius: 10px;
-  background-color: #f8f9fa;
-}
-
-.file-input {
-  width: 0.1px;
-  height: 0.1px;
-  opacity: 0;
-  overflow: hidden;
-  position: absolute;
-  z-index: -1;
-}
-
-.file-input-label {
-  font-size: 16px;
-  font-weight: bold;
+.student-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(10, 10, 101);
   color: white;
-  background-color: #007bff;
-  display: inline-block;
-  padding: 12px 30px;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: all 0.3s ease-in-out;
-  text-align: center;
-  vertical-align: middle;
-  user-select: none; /* This will prevent the text within the button from being selectable, enhancing the button-like appearance */
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.file-input-label:hover,
-.file-input-label:focus {
-  background-color: #0056b3;
-  outline: none; /* Removes outline on focus for browsers that show one */
-  box-shadow: 0 4px 8px rgba(0,123,255,0.5); /* Slight shadow for depth */
+.student-header h1 {
+  margin: 0;
 }
 
-.file-input-label:active {
-  transform: scale(0.98); /* Mimic a button press */
-}
-.file-name {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #333;
-  word-wrap: break-word; /* Ensures the filename wraps and does not overflow the container */
+.student-header a {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 8px 16px;
 }
 
-.tests {
+.student-header a:hover {
+  text-decoration: underline;
+}
+
+.cr-container {
+  width: 100%;
+  min-height: 91vh;
+  display: flex;
+  flex-direction: row;
+}
+
+.assi-bar {
+  padding: 20px;
+  width: 20%;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.test-label {
-  display: flex;
-  align-items: center;
-  font-size: 1rem;
-  color: #333;
+.assi-bar h2 {
+  font-size: 20px;
 }
 
-.test-checkbox {
-  margin-right: 10px;
+.assi-bar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.assi-bar li {
+  padding: 10px;
+  background-color: white;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.assi-bar li:hover {
+  background-color: #ddd;
+  transform: scale(1.02);
+}
+
+.tests-bar {
+  padding: 20px;
+  width: 20%;
+  
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: space-between;
+  /* min-height: 100vh; */
+}
+
+.tests-bar h2 {
+  font-size: 20px;
+}
+
+.tests-bar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.tests-bar li {
+  padding-top: 18px;
+  background-color: white;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.tests-bar button{
+  margin-top: 20px;
+  background-color: rgb(10, 10, 101);
+  color: #fff;
+  /* width: 90%; */
+  height: 30px;
+  border-radius: 10px;
+}
+
+.tests-bar .test-icon{
+  margin-top: 4.5px;
+}
+
+.upload-compile {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.upload-area {
+  width: 100%;
+  /* padding-left: 80px; */
 }

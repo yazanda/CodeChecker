@@ -1,0 +1,79 @@
+.drop-area {
+    border: 2px dashed #a3a3a3;
+    padding: 20px;
+    text-align: center;
+    margin: 20px;
+    border-radius: 10px;
+    background-color: #f8f8f8;
+    cursor: pointer;
+    width: 80%;
+}
+
+.drop-area span {
+    color: #333;
+    font-size: 16px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.drop-area span a {
+    color: #663399;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.drop-area span a:hover {
+    color: #333;
+}
+
+.upload-list-root {
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 80%;
+}
+
+.ul-element {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.file-lists {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #e0e0e0;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.file-name {
+    color: green;
+    font-weight: bold;
+}
+
+.file-size {
+    margin-left: 10px;
+}
+
+.close-icon-container {
+    cursor: pointer;
+    font-size: 16px;
+    color: red;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #663399;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}

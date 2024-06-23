@@ -1,4 +1,4 @@
-.logbody {
+/* .logbody {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
@@ -8,7 +8,7 @@
     align-items: center;
     height: 100vh;
   }
-  
+   */
   /* .container {
     background-color: #fff;
     padding: 20px;
@@ -17,26 +17,26 @@
     width: 300px;
   } */
   
-  h1 {
+  /* h1 {
     font-size: 24px;
     margin-bottom: 20px;
     text-align: center;
-  }
+  } */
   
-  form {
+  /* form {
     display: flex;
     flex-direction: column;
-  }
+  } */
   
-  input {
+  /* input {
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
-  }
+  } */
   
-  button {
+  /* button {
     padding: 10px;
     background-color: #007bff;
     color: white;
@@ -48,11 +48,11 @@
   
   button:hover {
     background-color: #0056b3;
-  }
-  
+  } */
+/*   
   .message {
     margin-top: 10px;
     text-align: center;
     color: red;
-  }
+  } */
   

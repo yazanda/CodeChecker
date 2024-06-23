@@ -1,15 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import {
-    MDBBtn,
-    MDBContainer,
-    MDBRow,
-    MDBCol,
-    MDBIcon,
-    MDBInput
-  }
-  from 'mdb-react-ui-kit';
 import "../styles/login.css";
 
 const Login = () => {
@@ -54,9 +45,7 @@ const Login = () => {
   };
 
   return (
-    <MDBContainer fluid>
-      <MDBRow>
-      {/* <MDBCol sm='6'> */}
+    
     <div className='logbody'>
       {step === 'login' && (
         <div>
@@ -120,10 +109,7 @@ const Login = () => {
       )}
       {message && <div className="message">{message}</div>}
     </div>
-    {/* <MDBCol/> */}
-    </MDBRow>
-
-    </MDBContainer>
+    
   );
 };
 
