@@ -3,6 +3,7 @@
     padding: 20px;
     text-align: center;
     margin: 20px;
+    /* margin-left: 100px; */
     border-radius: 10px;
     background-color: #f8f8f8;
     cursor: pointer;
@@ -29,7 +30,7 @@
 .upload-list-root {
     margin-top: 20px;
     margin-left: 20px;
-    width: 80%;
+    width: 60%;
 }
 
 .ul-element {

@@ -28,12 +28,17 @@
 
 .teach-header h1 {
   margin: 0;
+  font-size: 18px;
 }
 
 .teach-header a {
   color: #ffffff;
   text-decoration: none;
   padding: 8px 16px;
+}
+
+.teach-header .teach-header-icon{
+  margin-right: 65px;
 }
 
 .teach-header a:hover {

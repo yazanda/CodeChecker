@@ -78,7 +78,7 @@ function TeacherPage() {
     <div className="teacher-container">
       <div className="teach-header">
         <h1>Welcome Tamar</h1>
-        <PiChalkboardTeacherFill size={30}/>
+        <PiChalkboardTeacherFill size={30} className='teach-header-icon'/>
         <a href='#'>Logout</a>
       </div>
       <div className='card-container'>

@@ -1,5 +1,5 @@
 import '../styles/Home.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 // import { Button } from 'react-bootstrap';
 import UploadArea from '../components/UploadArea';
@@ -9,6 +9,7 @@ import { db } from '../config/firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import storage from '../config/firebase';
+import DownloadContext from '../providers/DownloadContext';
 
 function Home() {
     const [file, setFile] = useState(null);
@@ -21,6 +22,7 @@ function Home() {
     const [selectedAssignment, setSelectedAssignment] = useState(null);
     const [tests, setTests] = useState([]);
     const [testsBar, setTestsBar] = useState('');
+    const { downloadUrls } = useContext(DownloadContext);
 
     useEffect(() => {
         fetchExercises();
@@ -66,7 +68,7 @@ function Home() {
         const backendUrl = '/compile';
         var fileContent = '';
         try {
-            const downloadURL = await getDownloadURL(ref(storage, file.name));
+            const downloadURL = downloadUrls[0];
 
             const response = await fetch(downloadURL);
             fileContent = await response.text();
@@ -137,9 +139,13 @@ function Home() {
                     <button className='tests-button'>Run</button>
                 </div>
                 <div className='upload-compile'>
+                    <div className='up-header'>
+                        <h2>Compile Area</h2>
+                    </div>
                     <div className='upload-area'>
                         <UploadArea />
                     </div>
+                    <button onClick={handleFileCompile}> {compiling ? 'Compiling ...' : 'Compile'} </button>
                 </div>
             </div>
         </div>

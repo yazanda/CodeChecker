@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-html, body {
+/* html, body {
   height: 100%;
-}
+} */
 
 * {
   margin: 0;
@@ -17,6 +17,7 @@ html, body {
   font-family: 'Poppins', sans-serif;
   background-color: rgb(227, 238, 233);
   min-height: 100vh;
+  min-width: 100vw;
 }
 
 .student-header {
@@ -32,6 +33,7 @@ html, body {
 
 .student-header h1 {
   margin: 0;
+  font-size: 18px;
 }
 
 .student-header a {
@@ -46,7 +48,7 @@ html, body {
 
 .cr-container {
   width: 100%;
-  min-height: 91vh;
+  min-height: 92vh;
   display: flex;
   flex-direction: row;
 }
@@ -126,12 +128,33 @@ html, body {
 }
 
 .upload-compile {
-  width: 100%;
+  /* width: 60%; */
+  /* padding: 30px; */
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  min-width: 60vw;
+  /* align-items: center; */
 }
 
-.upload-area {
-  width: 100%;
-  /* padding-left: 80px; */
+.upload-compile h2 {
+  margin: 20px;
 }
+
+.up-header {
+  background: #fff;
+  width: 100%;
+}
+
+.upload-compile button{
+  width: 20%;
+  align-self: center;
+  background-color: rgb(10, 10, 101);
+}
+
+/* .upload-area {
+  width: 100%; 
+  height: 40%;
+  align-self: center;
+  margin-left: 120px;
+  padding-left: 80px;
+} */
