@@ -1,4 +1,4 @@
-import '../styles/lecturerPage.css';
+import '../styles/lecturer.css';
 import React, { useState, useEffect } from 'react';
 import { db } from '../config/firebase'; // Ensure this points to your Firebase config file
 import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
@@ -6,10 +6,11 @@ import { IoAddCircleSharp } from "react-icons/io5";
 import { PiChalkboardTeacherFill } from "react-icons/pi";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEditLine } from "react-icons/ri";
+import Modal from '../components/addAssModal';
 // import Card from '../components/assCard';
 // import '../styles/popup.css';
 
-function TeacherPage() {
+function Lecturer({ userId }) {
   const [courseName, setCourseName] = useState('');
   const [assignmentName, setAssignmentName] = useState('');
   const [codeLanguage, setCodeLanguage] = useState('');
@@ -100,13 +101,14 @@ function TeacherPage() {
             </div>
           </div>
         ))}
-        <div className='add-card'>
+        <div className='add-card' onClick={() => setShowAddForm(true)}>
         <IoAddCircleSharp size={90} style={{fill : 'rgb(10, 10, 101)'}}/>
           <h4>Add Assignment</h4>
         </div>
       </div>
+      {/* {showAddForm & } */}
     </div>
   );
 }
 
-export default TeacherPage;
+export default Lecturer;

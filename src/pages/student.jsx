@@ -1,4 +1,4 @@
-import '../styles/Home.css';
+import '../styles/Student.css';
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 // import { Button } from 'react-bootstrap';
@@ -11,7 +11,7 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import storage from '../config/firebase';
 import DownloadContext from '../providers/DownloadContext';
 
-function Home() {
+function Student({ userId }) {
     const [file, setFile] = useState(null);
     const [uploading, setUploading] = useState(false);
     const [fileName, setFileName] = useState('');
@@ -213,4 +213,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default Student;
