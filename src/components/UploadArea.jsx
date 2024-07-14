@@ -3,6 +3,8 @@ import storage from '../config/firebase'; // Import Firebase storage
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import '../styles/UploadArea.css'; // Import the CSS file
 import DownloadContext from '../providers/DownloadContext';
+import { MdDriveFolderUpload } from "react-icons/md";
+import { IoIosClose } from "react-icons/io";
 
 const UploadArea = () => {
     const [files, setFiles] = useState([]);
@@ -61,31 +63,35 @@ const UploadArea = () => {
 
     return (
         <div className='upload-container'>
-            <div
-                className="drop-area"
-                ref={dropAreaRef}
-                onDrop={handleDrop}
-                onDragOver={handleDragOver}
-            >
-                <span>Drop files here or <a href="#" onClick={() => dropAreaRef.current.querySelector('input').click()}>Browse</a></span>
-                <input type="file" multiple onChange={handleFileSelect} style={{ display: 'none' }} />
+            <div className="upload-area">
+                <div
+                    className="drop-area"
+                    ref={dropAreaRef}
+                    onDrop={handleDrop}
+                    onDragOver={handleDragOver}
+                >
+                    <span>Drop files here or <a href="#" onClick={() => dropAreaRef.current.querySelector('input').click()}>Browse</a></span>
+                    <input type="file" multiple onChange={handleFileSelect} style={{ display: 'none' }} />
+                </div>
+                <button onClick={handleUpload} disabled={uploading}>{<MdDriveFolderUpload size={35}/>}</button>
             </div>
-            <button onClick={handleUpload} disabled={uploading}>{uploading ? 'Uploading...' : 'Upload'}</button>
+            
             {files.length > 0 && (
                 <div className="upload-list-root">
                     <ul className="ul-element">
                         {files.map((file) => (
                             <li key={file.name} className="file-lists">
                                 <span className="file-name">{file.name}</span>
-                                <span className="file-size">{(file.size / 1024 / 1024).toFixed(2)} MB</span>
+                                {/* <span className="file-size">{(file.size / 1024 / 1024).toFixed(2)} MB</span> */}
                                 <p className='uploading-text'>{uploading ? 'Uploading...' : ''}</p>
-                                <span className="close-icon-container" onClick={() => removeFile(file.name)}>🗑️</span>
+                                <span className="close-icon-container" onClick={() => removeFile(file.name)}><IoIosClose size={25}/></span>
                             </li>
                         ))}
                     </ul>
                     
                 </div>
             )}
+           
         </div>
     );
 };

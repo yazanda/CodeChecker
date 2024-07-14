@@ -2,6 +2,7 @@ import '../styles/Student.css';
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 // import { Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import UploadArea from '../components/UploadArea';
 import { FaUpload } from 'react-icons/fa';
 import { MdOutlineRemoveRedEye } from "react-icons/md";
@@ -24,9 +25,13 @@ function Student({ userId }) {
     const [testsBar, setTestsBar] = useState('');
     const { downloadUrls } = useContext(DownloadContext);
 
-    useEffect(() => {
-        fetchExercises();
+    const navigate = useNavigate();
 
+    useEffect(() => {
+        // if(!userId) {
+        //     navigate('/api');
+        // }
+        fetchExercises();
         const fetchedTests = [
             { id: 1, name: 'Test 1' },
             { id: 2, name: 'Test 2' },
