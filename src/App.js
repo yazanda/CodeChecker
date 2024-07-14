@@ -37,7 +37,7 @@ function App() {
           path="/student" 
           element={
             <DownloadProvider>
-              <Student userId={userId}/>
+              <Student studentId={userId}/>
             </DownloadProvider>
           } 
         />

@@ -5,8 +5,9 @@ import '../styles/UploadArea.css'; // Import the CSS file
 import DownloadContext from '../providers/DownloadContext';
 import { MdDriveFolderUpload } from "react-icons/md";
 import { IoIosClose } from "react-icons/io";
+import axios from 'axios';
 
-const UploadArea = () => {
+const UploadArea = ({userId, assId}) => {
     const [files, setFiles] = useState([]);
     const [uploading, setUploading] = useState(false);
     const dropAreaRef = useRef(null);
@@ -27,34 +28,28 @@ const UploadArea = () => {
         event.preventDefault();
     };
 
-    const uploadFile = async (file) => {
-        const storageRef = ref(storage, `uploads/${file.name}`);
-        const uploadTask = uploadBytesResumable(storageRef, file);
+    const handleUpload = async (e) => {
+        e.preventDefault();
 
-        uploadTask.on(
-            'state_changed',
-            (snapshot) => {
-                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                console.log(`Upload is ${progress}% done`);
-            },
-            (error) => {
-                console.error('Upload failed', error);
-            },
-            async () => {
-                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                console.log('File available at', downloadURL);
-                addDownloadUrl(downloadURL); // Add URL to the context
-            }
-        );
-    };
+        const formData = new FormData();
+        Array.from(files).forEach(file => {
+          formData.append('files', file);
+        });
+        formData.append('userId', userId);
+        formData.append('assId', assId);
 
-    const handleUpload = async () => {
-        setUploading(true);
-        for (const file of files) {
-            await uploadFile(file);
+        try {
+            const response = await axios.post('/api/upload', formData, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            });
+            console.log(response.data);
+            alert('Files uploaded successfully!');
+        } catch (error) {
+            console.error('Error uploading files:', error);
+            alert('Failed to upload files');
         }
-        setUploading(false);
-        setFiles([]);
     };
 
     const removeFile = (fileName) => {
