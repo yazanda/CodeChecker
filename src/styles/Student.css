@@ -36,13 +36,19 @@
   font-size: 18px;
 }
 
-.student-header a {
+.student-header button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
   color: #ffffff;
   text-decoration: none;
+  display: inline;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
   padding: 8px 16px;
 }
 
-.student-header a:hover {
+.student-header button:hover {
   text-decoration: underline;
 }
 

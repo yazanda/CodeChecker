@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {FaUser, FaLock, FaEnvelope} from "react-icons/fa";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import '../comp styles/loginLec.css';
+import '../comp styles/loginRegister.css';
 
 const LoginRegister = ({ loginType, onLoginSuccess }) => {
 
@@ -79,13 +79,13 @@ const LoginRegister = ({ loginType, onLoginSuccess }) => {
                     </div>
     
                     <div className="forgot">
-                        <a href="#">Forgot password?</a>
+                        <button>Forgot password?</button>
                     </div>
     
-                    <button type='submit'>Login</button>
+                    <button className='submit-button' type='submit'>Login</button>
     
                     <div className="register-link">
-                        <p>Don't have an account? <a href="#" onClick={registerLink}>Register</a></p>
+                        <p>Don't have an account? <button onClick={registerLink}>Register</button></p>
                     </div>
                 </form>
             </div>
@@ -126,10 +126,10 @@ const LoginRegister = ({ loginType, onLoginSuccess }) => {
                         <label><input type="checkbox" /> I agree to the terms & conditions</label>
                     </div>
     
-                    <button type='submit'>Register</button>
+                    <button className='submit-button' type='submit'>Register</button>
     
                     <div className="register-link">
-                        <p>Already have an account? <a href="#" onClick={loginLink}>Login</a></p>
+                        <p>Already have an account? <button onClick={loginLink}>Login</button></p>
                     </div>
                 </form>
                 <div className="message">{message}</div>

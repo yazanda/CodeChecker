@@ -28,17 +28,22 @@
     /* margin-bottom: 10px; */
 }
 
-.drop-area span a {
+.drop-area span button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
     color: rgb(10, 10, 101);
     text-decoration: underline;
-    cursor: pointer;
+    display: inline;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
 }
 
-.drop-area span a:hover {
+.drop-area span button:hover {
     color: #333;
 }
 
-.upload-area button {
+.upload-area .upload-button {
     padding: 10px 20px;
     background-color: rgb(10, 10, 101);
     color: white;
@@ -51,7 +56,7 @@
     margin-bottom: 0.5px;
 }
 
-.upload-area button:hover {
+.upload-area .upload-button:hover {
     background-color: white;
     color: rgb(10, 10, 101);
 }

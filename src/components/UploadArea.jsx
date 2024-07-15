@@ -1,8 +1,8 @@
-import React, { useState, useRef, useContext } from 'react';
-import storage from '../config/firebase'; // Import Firebase storage
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import '../styles/UploadArea.css'; // Import the CSS file
-import DownloadContext from '../providers/DownloadContext';
+import React, { useState, useRef } from 'react';
+// import storage from '../config/firebase';
+// import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import '../comp styles/UploadArea.css'; 
+// import DownloadContext from '../providers/DownloadContext';
 import { MdDriveFolderUpload } from "react-icons/md";
 import { IoIosClose } from "react-icons/io";
 import axios from 'axios';
@@ -11,7 +11,7 @@ const UploadArea = ({userId, assId}) => {
     const [files, setFiles] = useState([]);
     const [uploading, setUploading] = useState(false);
     const dropAreaRef = useRef(null);
-    const { addDownloadUrl } = useContext(DownloadContext);
+    // const { addDownloadUrl } = useContext(DownloadContext);
 
     const handleFileSelect = (event) => {
         const selectedFiles = Array.from(event.target.files);
@@ -30,7 +30,7 @@ const UploadArea = ({userId, assId}) => {
 
     const handleUpload = async (e) => {
         e.preventDefault();
-
+        setUploading(true);
         const formData = new FormData();
         Array.from(files).forEach(file => {
           formData.append('files', file);
@@ -65,10 +65,10 @@ const UploadArea = ({userId, assId}) => {
                     onDrop={handleDrop}
                     onDragOver={handleDragOver}
                 >
-                    <span>Drop files here or <a href="#" onClick={() => dropAreaRef.current.querySelector('input').click()}>Browse</a></span>
+                    <span>Drop files here or <button onClick={() => dropAreaRef.current.querySelector('input').click()}>Browse</button></span>
                     <input type="file" multiple onChange={handleFileSelect} style={{ display: 'none' }} />
                 </div>
-                <button onClick={handleUpload} disabled={uploading}>{<MdDriveFolderUpload size={35}/>}</button>
+                <button className='upload-button' onClick={handleUpload} disabled={uploading}>{<MdDriveFolderUpload size={35}/>}</button>
             </div>
             
             {files.length > 0 && (

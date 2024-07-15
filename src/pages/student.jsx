@@ -19,7 +19,7 @@ function Student({ studentId: propStudentId }) {
     // const [file, setFile] = useState(null);
     // const [uploading, setUploading] = useState(false);
     const [compiling, setCompiling] = useState(false);
-    const [compileOutput, setCompileOutput] = useState('');
+    // const [compileOutput, setCompileOutput] = useState('');
     // const [isCompiled, setIsCompiled] = useState(false);
     const [selectedAssignment, setSelectedAssignment] = useState(null);
     const [tests, setTests] = useState([]);
@@ -33,11 +33,13 @@ function Student({ studentId: propStudentId }) {
         const storedStudentId = localStorage.getItem('studentId');
         if (storedStudentId) {
           setStudentId(storedStudentId);
+        } else {
+            navigate('/api');
         }
       } else {
         localStorage.setItem('studentId', studentId);
       }
-    }, [studentId]);
+    }, [studentId, navigate]);
 
     const handleLogout = (event) => {
       event.preventDefault();
@@ -68,7 +70,7 @@ function Student({ studentId: propStudentId }) {
     // };
 
     const handleFileCompile = async () => {
-        // setCompiling(true);
+        setCompiling(true);
         // const backendUrl = '/compile';
         // var fileContent = '';
         // try {
@@ -127,9 +129,6 @@ function Student({ studentId: propStudentId }) {
     };
 
     useEffect(() => {
-        // if(!studentId) {
-        //     navigate('/api');
-        // }
         fetchData();
         const fetchedTests = [
             { id: 1, name: 'Test 1' },
@@ -150,7 +149,7 @@ function Student({ studentId: propStudentId }) {
         <div className='student-container'>
             <div className='student-header'>
                 <h1>Welcome {student.name} </h1>
-                <a href='#' onClick={handleLogout}>Logout</a>
+                <button onClick={handleLogout}>Logout</button>
             </div>
             <div className='cr-container'>
                 <div className='assi-bar'>
