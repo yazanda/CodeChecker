@@ -65,7 +65,7 @@ const UploadArea = ({userId, assId}) => {
                     onDrop={handleDrop}
                     onDragOver={handleDragOver}
                 >
-                    <span>Drop files here or <button onClick={() => dropAreaRef.current.querySelector('input').click()}>Browse</button></span>
+                    <span>Drop files here or <button type='button' onClick={() => dropAreaRef.current.querySelector('input').click()}>Browse</button></span>
                     <input type="file" multiple onChange={handleFileSelect} style={{ display: 'none' }} />
                 </div>
                 <button className='upload-button' onClick={handleUpload} disabled={uploading}>{<MdDriveFolderUpload size={35}/>}</button>

@@ -13,6 +13,7 @@
   font-family: 'Poppins', sans-serif;
   background-color: rgb(227, 238, 233);
   min-height: 100vh;
+  min-width: 100vw;
 }
 
 .teach-header {

@@ -13,7 +13,7 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 // import DownloadContext from '../providers/DownloadContext';
 
 function Student({ studentId: propStudentId }) {
-    const [studentId, setStudentId] = useState(propStudentId);
+    const [studentId, setStudentId] = useState(propStudentId) || localStorage.getItem('studentId');
     const [student, setStudent] = useState([]);
     const [assignments, setAssignments] = useState([]);
     // const [file, setFile] = useState(null);
@@ -22,7 +22,8 @@ function Student({ studentId: propStudentId }) {
     // const [compileOutput, setCompileOutput] = useState('');
     // const [isCompiled, setIsCompiled] = useState(false);
     const [selectedAssignment, setSelectedAssignment] = useState(null);
-    const [tests, setTests] = useState([]);
+    const [results, setResults] = useState([]);
+    // const [tests, setTests] = useState([]);
     // const [testsBar, setTestsBar] = useState('');
     // const { downloadUrls } = useContext(DownloadContext);
 
@@ -39,7 +40,8 @@ function Student({ studentId: propStudentId }) {
       } else {
         localStorage.setItem('studentId', studentId);
       }
-    }, [studentId, navigate]);
+      console.log(studentId);
+    }, [studentId, setStudentId, navigate]);
 
     const handleLogout = (event) => {
       event.preventDefault();
@@ -71,6 +73,13 @@ function Student({ studentId: propStudentId }) {
 
     const handleFileCompile = async () => {
         setCompiling(true);
+        try {
+            const response = await axios.post('/api/compile', {assignmentId: `${selectedAssignment.id}`, studentId: `${studentId}`});
+            setResults(response.data);
+
+        } catch (error) {
+
+        }
         // const backendUrl = '/compile';
         // var fileContent = '';
         // try {
@@ -101,11 +110,9 @@ function Student({ studentId: propStudentId }) {
         // }
     };
 
-    const fetchData = useCallback(async () => {
-        // const querySnapshot = await getDocs(collection(db, "exercises"));
-        // setExercises(querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+    const fetchData = useCallback(async (stid) => {
         try {
-          const studentResponse = await axios.get(`/api/student/${studentId}`);
+          const studentResponse = await axios.get(`/api/student/${stid}`);
           const student = studentResponse.data;
           setStudent(student);
 
@@ -121,7 +128,7 @@ function Student({ studentId: propStudentId }) {
         } catch (error) {
            console.error('Error fetching student or assignment data:', error);
         }
-    }, [studentId]);
+    },[]);
 
     const handleHomeworkClick = (assignment) => {
         setSelectedAssignment(assignment);
@@ -129,21 +136,10 @@ function Student({ studentId: propStudentId }) {
     };
 
     useEffect(() => {
-        fetchData();
-        const fetchedTests = [
-            { id: 1, name: 'Test 1' },
-            { id: 2, name: 'Test 2' },
-            { id: 3, name: 'Test 3' },
-            { id: 3, name: 'Test 3' },
-            { id: 3, name: 'Test 3' },
-            { id: 3, name: 'Test 3' },
-            { id: 3, name: 'Test 3' },
-            { id: 3, name: 'Test 3' },
-            { id: 3, name: 'Test 3' },
-            // Add more test objects as needed
-        ];
-        setTests(fetchedTests);
-    }, [fetchData]);
+        fetchData(studentId);
+        // const fetchedTests = selectedAssignment.tests || null;
+        // setTests(fetchedTests);
+    }, [studentId, fetchData]);
 
     return (
         <div className='student-container'>
@@ -167,26 +163,40 @@ function Student({ studentId: propStudentId }) {
                     <div>
                     <h2>Tests for {selectedAssignment ? selectedAssignment.name : '...'}</h2>
                     <ul>
-                        {tests.map((test) => (
+                        {selectedAssignment && selectedAssignment.tests.length !== 0 && (selectedAssignment.tests.map((test) => (
                             <li key={test.id}>
                                 {test.name}
                                 <MdOutlineRemoveRedEye className='test-icon'/>
-                                <input type="checkbox" className="test-checkbox" />
                             </li>
-                        ))}
+                        )))}
                     </ul>
                     </div>
-                    <button className='tests-button'>Run</button>
+                    <button className='tests-button' onClick={handleFileCompile} disabled={selectedAssignment === null}>Run Tests</button>
                 </div>
                 <div className='upload-compile'>
-                    <div className='up-header'>
-                        <h2>Compile Area</h2>
-                    </div>
-                    <div className='upload-area'>
-                        <UploadArea userId={studentId} assId={0}/>
-                    </div>
-                    <button onClick={handleFileCompile}> {compiling ? 'Compiling ...' : 'Compile'} </button>
+                    {selectedAssignment && (
+                        <div className='upload-compile-in'>
+                            <div className='up-header'>
+                                <h2>Compile Area</h2>
+                            </div>
+                            <div className='upload-area'>
+                                <UploadArea userId={studentId} assId={selectedAssignment.id}/>
+                            </div>
+                            <div className="result-area">
+                                <h2>Results</h2>
+                                <ul>
+                                {results.length !== 0 && results.map((res) => (
+                                    <li key={res.name}>
+                                        <p>{res.name}</p>
+                                        <p>{res.status}</p>
+                                    </li>
+                                ))}
+                                </ul>
+                            </div>  
+                        </div>
+                    )}
                 </div>
+               
             </div>
         </div>
     );
