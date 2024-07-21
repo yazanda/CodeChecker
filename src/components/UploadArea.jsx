@@ -46,9 +46,11 @@ const UploadArea = ({userId, assId}) => {
             });
             console.log(response.data);
             alert('Files uploaded successfully!');
+            setUploading(false);
         } catch (error) {
             console.error('Error uploading files:', error);
             alert('Failed to upload files');
+            setUploading(false);
         }
     };
 
@@ -77,8 +79,6 @@ const UploadArea = ({userId, assId}) => {
                         {files.map((file) => (
                             <li key={file.name} className="file-lists">
                                 <span className="file-name">{file.name}</span>
-                                {/* <span className="file-size">{(file.size / 1024 / 1024).toFixed(2)} MB</span> */}
-                                <p className='uploading-text'>{uploading ? 'Uploading...' : ''}</p>
                                 <span className="close-icon-container" onClick={() => removeFile(file.name)}><IoIosClose size={25}/></span>
                             </li>
                         ))}
