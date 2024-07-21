@@ -2,8 +2,8 @@ import '../styles/lecturer.css';
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { db } from '../config/firebase'; // Ensure this points to your Firebase config file
-import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+// import { db } from '../config/firebase';
+// import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { IoAddCircleSharp } from "react-icons/io5";
 import { PiChalkboardTeacherFill } from "react-icons/pi";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
@@ -17,14 +17,14 @@ function Lecturer({ lecId: propLecId }) {
   const [lecId, setLecId] = useState(propLecId || localStorage.getItem('lecId'));
   const [lecturer, setLecturer] = useState([]);
   const [assignments, setAssignments] = useState([]);
-  const [courseName, setCourseName] = useState('');
-  const [assignmentName, setAssignmentName] = useState('');
-  const [codeLanguage, setCodeLanguage] = useState('');
-  const [dueDate, setDueDate] = useState('');
-  const [studentIds, setStudentIds] = useState('');
+  // const [courseName, setCourseName] = useState('');
+  // const [assignmentName, setAssignmentName] = useState('');
+  // const [codeLanguage, setCodeLanguage] = useState('');
+  // const [dueDate, setDueDate] = useState('');
+  // const [studentIds, setStudentIds] = useState('');
   
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [selectedExercise, setSelectedExercise] = useState(null);
+  // const [showAddForm, setShowAddForm] = useState(false);
+  // const [selectedExercise, setSelectedExercise] = useState(null);
 
 
   const navigate = useNavigate();
@@ -32,6 +32,16 @@ function Lecturer({ lecId: propLecId }) {
   const handleCardClick = (id) => {
     navigate(`/lecturer/${id}`);
   };
+
+  const handleLogout = (event) => {
+    event.preventDefault();
+    localStorage.removeItem('lecId');
+    setLecId(null);
+    setLecturer(null);
+    setAssignments([]);
+    navigate('/api');
+  };
+
   // console.log(lecId);
   const fetchData = useCallback(async (LecId) => {
     try {
@@ -50,7 +60,7 @@ function Lecturer({ lecId: propLecId }) {
     } catch (error) {
        console.error('Error fetching lecturer or assignment data:', error);
     }
-},);
+},[]);
 
 
 useEffect(() => {
@@ -111,9 +121,9 @@ useEffect(() => {
   //   console.log("Define tests for exercise:", exercise);
   // };
 
-  const closePopup = () => {
-    setSelectedExercise(null);
-  };
+  // const closePopup = () => {
+  //   setSelectedExercise(null);
+  // };
 
   return (
     
@@ -121,7 +131,7 @@ useEffect(() => {
       <div className="teach-header">
         <h1>Welcome {lecturer.name}</h1>
         <PiChalkboardTeacherFill size={30} className='teach-header-icon'/>
-        <a href='#'>Logout</a>
+        <button onClick={handleLogout}>Logout</button>
       </div>
       <div className='card-container'>
         {/* <AssignmentsTable assignmentsIds={assignments}/> */}
@@ -143,7 +153,7 @@ useEffect(() => {
             </div>
           </div>
         ))}
-        <div className='add-card' onClick={() => setShowAddForm(true)}>
+        <div className='add-card'>
           <IoAddCircleSharp size={90} style={{fill : 'rgb(10, 10, 101)'}}/>
             <h4>Add Assignment</h4>
         </div>

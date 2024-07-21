@@ -20,11 +20,6 @@ function App() {
     setLoginType(type);
     navigate('/login');
   };
-  const fetchStudents = async () => {
-    // Fetch students from the server
-    return [{ id: 1, name: 'Student 1' }, { id: 2, name: 'Student 2' }];
-  };
-
 
   return (
     <Router>
@@ -49,7 +44,7 @@ function App() {
         />
         <Route path="/adduser" element={<AddUser />}  />
         <Route path="/lecturer" element={<Lecturer lecId={userId}/>}  />
-        <Route path="/lecturer/:id" element={<AssignmentDetail fetchStudents={fetchStudents} />}>
+        <Route path="/lecturer/:id" element={<AssignmentDetail />}>
           
         </Route>
       </Routes>

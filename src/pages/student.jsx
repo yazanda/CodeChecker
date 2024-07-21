@@ -5,7 +5,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import UploadArea from '../components/UploadArea';
 // import { FaUpload } from 'react-icons/fa';
+import { IoMdCloseCircleOutline } from "react-icons/io";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { Circles } from 'react-loader-spinner';
 // import { db } from '../config/firebase'; 
 // import { collection, getDocs } from 'firebase/firestore';
 // import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -49,65 +51,20 @@ function Student({ studentId: propStudentId }) {
       setStudentId(null);
       setStudent(null);
       setAssignments([]);
+      navigate('/api');
     };
-    // const handleFileChange = async (event) => {
-    //     const file = event.target.files[0];
-    //     if (file) {
-    //         setFile(file);
-    //         setFileName(file.name); // Update the filename state
-    //     } else {
-    //         setFileName(''); // Reset the filename if no file is selected
-    //     }
-
-    //     setUploading(true);
-
-    //     try {
-    //         const storageRef = ref(storage, file.name);
-    //         await uploadBytes(storageRef, file);
-    //     } catch (error) {
-    //         console.error('Error uploading file:', error);
-    //     }
-
-    //     setUploading(false);
-    // };
+    
 
     const handleFileCompile = async () => {
+        setResults([]);
         setCompiling(true);
         try {
             const response = await axios.post('/api/compile', {assignmentId: `${selectedAssignment.id}`, studentId: `${studentId}`});
             setResults(response.data);
-
+            setCompiling(false);
         } catch (error) {
-
+            alert(error.message);
         }
-        // const backendUrl = '/compile';
-        // var fileContent = '';
-        // try {
-        //     const downloadURL = downloadUrls[0];
-
-        //     const response = await fetch(downloadURL);
-        //     fileContent = await response.text();
-        //     console.log(fileContent);
-        //     setFile(null);
-        // } catch (error) {
-        //     console.error('Error fetching file content:', error);
-        // }
-
-        // try {
-        //     const response = await axios.post(backendUrl, {
-        //         lang: selectedAssignment.codeLanguage.toLowerCase(),
-        //         code: fileContent,
-        //     });
-        //     console.log('Compilation response:', response.data);
-        //     setIsCompiled(response.data.compiled)
-        //     setCompileOutput(response.data.output); // Adjust based on your actual response structure
-        //     setCompiling(false);
-        //     console.log(compileOutput);
-        // } catch (error) {
-        //     console.error('Error sending file content to backend:', error);
-        //     setCompileOutput('Error during compilation.');
-        //     setCompiling(false);
-        // }
     };
 
     const fetchData = useCallback(async (stid) => {
@@ -177,18 +134,24 @@ function Student({ studentId: propStudentId }) {
                     {selectedAssignment && (
                         <div className='upload-compile-in'>
                             <div className='up-header'>
-                                <h2>Compile Area</h2>
+                                <h2>{selectedAssignment? `${selectedAssignment.course}: ${selectedAssignment.name}` : 'Select an assignment'}</h2>
+                                <IoMdCloseCircleOutline className='up-header-icon' onClick={() => setSelectedAssignment(null)}/>
                             </div>
                             <div className='upload-area'>
                                 <UploadArea userId={studentId} assId={selectedAssignment.id}/>
                             </div>
                             <div className="result-area">
-                                <h2>Results</h2>
+                                <div className="results-header">
+                                    <h2>Results</h2>
+                                    {compiling && 
+                                        <Circles height="20" width="20" color="rgb(10, 10, 101)" ariaLabel="loading" />
+                                    }
+                                </div>
                                 <ul>
                                 {results.length !== 0 && results.map((res) => (
-                                    <li key={res.name}>
-                                        <p>{res.name}</p>
-                                        <p>{res.status}</p>
+                                   <li key={res.name} className={res.error ? 'error' : ''}>
+                                        <span className="name">{res.name}</span>
+                                        <span className="status">{res.status}</span>
                                     </li>
                                 ))}
                                 </ul>
