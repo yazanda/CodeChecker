@@ -8,6 +8,8 @@ import UploadArea from '../components/UploadArea';
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { Circles } from 'react-loader-spinner';
+import Popup from 'reactjs-popup';
+// import 'reactjs-popup/dist/index.css';
 // import { db } from '../config/firebase'; 
 // import { collection, getDocs } from 'firebase/firestore';
 // import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
@@ -89,8 +91,18 @@ function Student({ studentId: propStudentId }) {
 
     const handleHomeworkClick = (assignment) => {
         setSelectedAssignment(assignment);
+        setResults([]);
         // setTestsBar('active');
     };
+
+    const reformatCodeString = (codeString) => {
+        const lines = codeString
+          .replace(/\\\\/g, '\\') // Replace double backslashes with single backslash
+          .replace(/\\"/g, '"')   // Replace escaped quotes with actual quotes
+          .split('\\n');          // Split on '\\n' to handle new lines
+    
+        return lines.map((line, index) => <p key={index} className="popup-text">{line}</p>);
+      };
 
     useEffect(() => {
         fetchData(studentId);
@@ -123,7 +135,19 @@ function Student({ studentId: propStudentId }) {
                         {selectedAssignment && selectedAssignment.tests.length !== 0 && (selectedAssignment.tests.map((test) => (
                             <li key={test.id}>
                                 {test.name}
-                                <MdOutlineRemoveRedEye className='test-icon'/>
+                                {/* <MdOutlineRemoveRedEye className='test-icon'/> */}
+                                <Popup
+                                  trigger={<button className="popup-button"><MdOutlineRemoveRedEye className='test-icon' /></button>}
+                                  position="right center"
+                                  contentStyle={{ padding: '0', border: 'none' }} // Optional inline styles to remove default padding/border
+                                >
+                                  <div className="popup-content">
+                                    <h4>Main Script</h4>
+                                    {reformatCodeString(test.main)}
+                                    <h4>Input</h4>
+                                    <p className="popup-text">{test.stdin}</p>
+                                  </div>
+                                </Popup>
                             </li>
                         )))}
                     </ul>
@@ -147,10 +171,21 @@ function Student({ studentId: propStudentId }) {
                                         <Circles height="20" width="20" color="rgb(10, 10, 101)" ariaLabel="loading" />
                                     }
                                 </div>
+                                <div className="results-content">
+                                    <span>Tests</span>
+                                        <div className="right-spans">
+                                        <span>Name</span>
+                                        <span>Output</span>
+                                        <span>Expected</span>
+                                        <span>Status</span>
+                                    </div>
+                                </div>
                                 <ul>
                                 {results.length !== 0 && results.map((res) => (
-                                   <li key={res.name} className={res.error ? 'error' : ''}>
+                                   <li key={res.name} className={res.error || res.status === 'Failed' ? 'error' : ''}>
                                         <span className="name">{res.name}</span>
+                                        <span className="out">{res.output}</span>
+                                        <span className="expect">{selectedAssignment.tests.find(t => t.name === res.name).expected}</span>
                                         <span className="status">{res.status}</span>
                                     </li>
                                 ))}

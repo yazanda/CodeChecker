@@ -60,10 +60,10 @@
 }
 
 .upload-list-root {
-    margin-right: 7%;
+    margin-right: 10%;
     width: 70%;
     height: fit-content;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
 }
 
 .ul-element {

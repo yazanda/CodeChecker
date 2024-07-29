@@ -66,6 +66,12 @@ const AssignmentDetail = () => {
     setAssignment({ ...assignment, subFilesNames: newFileNames });
   };
   
+  const reformatCodeString = (codeString) => {
+    return codeString
+      .replace(/\\\\n/g, '\n') // Replace double backslashes and 'n' with actual new line
+      .replace(/\\n/g, '\n')   // Replace remaining single backslash and 'n' with actual new line
+      .replace(/\\\\/g, '\\'); // Replace double backslashes with single backslash
+  };
 
   if (!assignment) {
     return (
@@ -88,7 +94,7 @@ const AssignmentDetail = () => {
                 </div>
                 <div className="top-input">
                     <h4>Course</h4>
-                    <input type="text" value={assignment.course} onChange={(e) => setAssignment({ ...assignment, name: e.target.value })} />
+                    <input type="text" value={assignment.course} onChange={(e) => setAssignment({ ...assignment, course: e.target.value })} />
                 </div>
                 <div className="top-input">
                     <h4>Language</h4>
@@ -149,7 +155,7 @@ const AssignmentDetail = () => {
                 <button>Save</button>
                 <button>Show Stuents</button>
                 <button>Add Students</button>
-                <button>Define Tests</button>
+                <button>Add Lecturers</button>
             </div>
         </div> 
       </div>
@@ -164,21 +170,21 @@ const AssignmentDetail = () => {
                       </div>
                       <div className="top-input">
                           <h4>Grade</h4>
-                          <input type="text" value={test.grade} onChange={(e) => setAssignment({ ...assignment, name: e.target.value })} />
+                          <input type="text" value={test.grade} onChange={(e) => setAssignment({ ...assignment, grade: e.target.value })} />
                       </div>
                       <div className="top-input">
                           <h4>Expected Output</h4>
-                          <input type="text" value={test.expected} onChange={(e) => setAssignment({ ...assignment, name: e.target.value })} />
+                          <input type="text" value={test.expected} onChange={(e) => setAssignment({ ...assignment, expected: e.target.value })} />
                       </div>
                       <div className="top-input">
                           <h4>Input (stdin)</h4>
-                          <input type="text" value={test.stdin} onChange={(e) => setAssignment({ ...assignment, name: e.target.value })} />
+                          <input type="text" value={test.stdin} onChange={(e) => setAssignment({ ...assignment, stdin: e.target.value })} />
                       </div>
                     </div>
                     <div className="code">
-                    <h4>Main Script</h4>
+                      <h4>Main Script</h4>
                       <CodeEditor
-                        value={test.main}
+                        value={reformatCodeString(test.main)}
                         language={assignment.lang.toLowerCase()}
                         placeholder="Please enter C code."
                         height='50px'
@@ -189,6 +195,14 @@ const AssignmentDetail = () => {
                           fontFamily: 'ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace',
                         }}
                       />
+                      <label>
+                        <input type="checkbox" />
+                          {'   Valgrind'}
+                      </label> 
+                      <label>
+                        <input type="checkbox" />
+                          {'   Hidden'}
+                      </label> 
                     </div>
                     </div>
           ))}

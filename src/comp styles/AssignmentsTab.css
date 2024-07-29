@@ -143,6 +143,7 @@ body {
   }
   .code {
     height: fit-content;
+    /* width: 75%; */
     margin-top: 20px;
     margin-bottom: 10px;
     border-bottom: 1px solid #ddd;
@@ -152,6 +153,10 @@ body {
     margin-bottom: 5px;
   }
   
+  .code label{
+    padding: 5px;
+    padding-top: 15px;
+  }
   .edit-action-buttons button:hover {
     background-color: #283593;
   }

@@ -119,7 +119,14 @@
   border-bottom: 1px solid #ddd; 
 }
 
-.tests-bar button{
+.tests-bar li button {
+  background-color: transparent;
+  border: none;
+  width: fit-content;
+  font-size: 17px;
+}
+
+.tests-bar .tests-button{
   margin-top: 20px;
   background-color: rgb(10, 10, 101);
   color: #fff;
@@ -129,11 +136,13 @@
 
 .tests-bar .test-icon{
   margin-top: 4.5px;
+  cursor: pointer;
 }
+
 
 .upload-compile {
   width: 100%;
-  min-height: 80vh;
+  /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -178,11 +187,13 @@
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
 }
 
 .result-area h2 {
   color: #333;
   margin: 0;
+  margin-bottom: 10px;
 }
 
 .result-area ul {
@@ -198,6 +209,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
+  /* gap: 100px; */
   align-items: center;
 }
 
@@ -208,7 +220,6 @@
 .result-area li::before {
   content: '✔️';
   color: #4CAF50;
-  margin-right: 10px;
 }
 
 .result-area li.error::before {
@@ -221,6 +232,14 @@
   color: #333;
 }
 
+.result-area li span.expect {
+  color: #333;
+}
+
+.result-area li span.out {
+  color: #333;
+}
+
 .result-area li span.status {
   font-size: 0.9em;
   color: #666;
@@ -229,4 +248,43 @@
 .results-header {
   display: flex;
   justify-content: space-between;
+}
+
+.results-content {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+  padding: 10px;
+  padding-right: 35px;
+  background-color: rgb(10, 10, 101);
+  color: #ffffff;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.right-spans {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.popup-content {
+  padding: 10px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 350px; /* Adjust the width as needed */
+  max-width: 100%; /* Ensure it doesn't overflow */
+}
+
+.popup-arrow {
+  color: rgb(10, 10, 101); /* Arrow color matches the background of the popup */
+}
+
+
+
+.popup-text {
+  font-family: 'Poppins', sans-serif;
+  color: #333;
 }
