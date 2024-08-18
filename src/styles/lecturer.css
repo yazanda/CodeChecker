@@ -117,6 +117,7 @@
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   overflow: hidden;
   width: 300px;
+  height: 180px;
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -132,4 +133,57 @@
 .card-icons {
   display: flex;
   gap: 10px;
+}
+
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Space between form fields */
+}
+
+.modal-content form div {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-content form label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.modal-content form input[type="text"],
+.modal-content form select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.modal-content form button {
+  padding: 10px;
+  background-color: rgb(10, 10, 101); /* Button color */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 40px;
+}
+
+.modal-content form button:hover {
+  background-color: #0d0db0; /* Darker shade on hover */
+}
+
+.modal-content form button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.modal-content h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+.modal-content .message {
+  align-items: center;
 }

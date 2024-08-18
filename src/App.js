@@ -2,14 +2,11 @@ import './App.css';
 import React, {useState} from 'react';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Student from './pages/student';
-import AddUser from './pages/addUser';
+// import AddUser from './pages/addUser';
 import Lecturer from './pages/lecturer';
-import AssignmentDetail from './components/AssignmentDetails';
-// import Login from './pages/login';
+import Assignment from './components/Assignment';
 import Welcome from './pages/welcome';
 import LoginRegister from './components/LoginRegister';
-import { DownloadProvider } from './providers/DownloadContext';
-
 
 
 function App() {
@@ -36,15 +33,11 @@ function App() {
         />
         <Route 
           path="/student" 
-          element={
-            <DownloadProvider>
-              <Student studentId={userId}/>
-            </DownloadProvider>
-          } 
+          element={<Student studentId={userId}/>} 
         />
-        <Route path="/adduser" element={<AddUser />}  />
+        {/* <Route path="/adduser" element={<AddUser />}  /> */}
         <Route path="/lecturer" element={<Lecturer lecId={userId}/>}  />
-        <Route path="/lecturer/:id" element={<AssignmentDetail />}>
+        <Route path="/lecturer/:id" element={<Assignment />}>
           
         </Route>
       </Routes>

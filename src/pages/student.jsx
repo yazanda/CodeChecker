@@ -1,35 +1,25 @@
 import '../styles/Student.css';
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-// import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import UploadArea from '../components/UploadArea';
-// import { FaUpload } from 'react-icons/fa';
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { Circles } from 'react-loader-spinner';
 import Popup from 'reactjs-popup';
-// import 'reactjs-popup/dist/index.css';
-// import { db } from '../config/firebase'; 
-// import { collection, getDocs } from 'firebase/firestore';
-// import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-// import storage from '../config/firebase';
-// import DownloadContext from '../providers/DownloadContext';
+
 
 function Student({ studentId: propStudentId }) {
     const [studentId, setStudentId] = useState(propStudentId) || localStorage.getItem('studentId');
     const [student, setStudent] = useState([]);
     const [assignments, setAssignments] = useState([]);
-    // const [file, setFile] = useState(null);
-    // const [uploading, setUploading] = useState(false);
     const [compiling, setCompiling] = useState(false);
-    // const [compileOutput, setCompileOutput] = useState('');
-    // const [isCompiled, setIsCompiled] = useState(false);
+    const [submitted, setSubmitted] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
+    const [grade, setGrade] = useState(0);
+    const [allTestsPassed, setAllTestsPassed] = useState(false);
     const [selectedAssignment, setSelectedAssignment] = useState(null);
     const [results, setResults] = useState([]);
-    // const [tests, setTests] = useState([]);
-    // const [testsBar, setTestsBar] = useState('');
-    // const { downloadUrls } = useContext(DownloadContext);
 
     const navigate = useNavigate();
 
@@ -61,11 +51,23 @@ function Student({ studentId: propStudentId }) {
         setResults([]);
         setCompiling(true);
         try {
-            const response = await axios.post('/api/compile', {assignmentId: `${selectedAssignment.id}`, studentId: `${studentId}`});
-            setResults(response.data);
+            const response = await axios.post('/api/compile', { assignmentId: `${selectedAssignment.id}`, studentId: `${studentId}` });
+            const compileResults = response.data;
+            setResults(compileResults);
+            const allPassed = compileResults.every(result => result.status === 'Passed');
+            setAllTestsPassed(allPassed);
+
+            // Save the last run results to the submits collection
+            await axios.post('/api/submition', {
+                studentId: studentId,
+                assignmentId: selectedAssignment.id,
+                results: compileResults
+            });
+
             setCompiling(false);
         } catch (error) {
             alert(error.message);
+            setCompiling(false);
         }
     };
 
@@ -89,11 +91,42 @@ function Student({ studentId: propStudentId }) {
         }
     },[]);
 
-    const handleHomeworkClick = (assignment) => {
+    const handleHomeworkClick = async (assignment) => {
         setSelectedAssignment(assignment);
         setResults([]);
-        // setTestsBar('active');
+        try {
+            const response = await axios.get(`/api/submition/${studentId}/${assignment.id}`);
+            if (response.data.success) {
+                console.log(response.data);
+                setResults(response.data.sub.last.results);
+                setSubmitted(response.data.sub.status);
+                setGrade(response.data.sub.grade);
+                const allPassed = response.data.sub.last.results.every(result => result.status === 'Passed');
+                setAllTestsPassed(allPassed);
+                console.log(response.data.sub.status);
+            }
+        } catch (error) {
+            console.error('Error fetching last run results:', error);
+        }
     };
+
+    const handleSubmit = async () => {
+        setSubmitting(true);
+        try {
+            const response = await axios.put('/api/submit', {
+                studentId: studentId,
+                assid: selectedAssignment.id
+            });
+            setGrade(response.data.grade);
+            setSubmitted(true);
+            setSubmitting(false);
+            console.log(response);
+        } catch (error) {
+            alert('error while submitting!');
+            console.log(error);
+            setSubmitting(false);
+        }
+    }
 
     const reformatCodeString = (codeString) => {
         const lines = codeString
@@ -121,38 +154,40 @@ function Student({ studentId: propStudentId }) {
                     <h2>Your Assignments</h2>
                     <ul>
                     {assignments.map((assignment) => (
-                         <li key={assignment.id} onClick={() => handleHomeworkClick(assignment)}>
+                         <li className={selectedAssignment === assignment.id? 'selected':''} key={assignment.id} onClick={() => handleHomeworkClick(assignment)}>
                              {assignment.course}: {assignment.name}
                          </li>
                      ))}
                      </ul>
-                     
                 </div>
                 <div className='tests-bar'>
                     <div>
                     <h2>Tests for {selectedAssignment ? selectedAssignment.name : '...'}</h2>
                     <ul>
-                        {selectedAssignment && selectedAssignment.tests.length !== 0 && (selectedAssignment.tests.map((test) => (
-                            <li key={test.id}>
-                                {test.name}
-                                {/* <MdOutlineRemoveRedEye className='test-icon'/> */}
-                                <Popup
-                                  trigger={<button className="popup-button"><MdOutlineRemoveRedEye className='test-icon' /></button>}
-                                  position="right center"
-                                  contentStyle={{ padding: '0', border: 'none' }} // Optional inline styles to remove default padding/border
-                                >
-                                  <div className="popup-content">
-                                    <h4>Main Script</h4>
-                                    {reformatCodeString(test.main)}
-                                    <h4>Input</h4>
-                                    <p className="popup-text">{test.stdin}</p>
-                                  </div>
-                                </Popup>
-                            </li>
+                        {selectedAssignment && selectedAssignment.tests.length !== 0 && (
+                            selectedAssignment.tests
+                                .filter(test => !test.hidden)
+                                .map((test) => (
+                                    <li key={test.id}>
+                                        {test.name}
+                                        {/* <MdOutlineRemoveRedEye className='test-icon'/> */}
+                                        <Popup
+                                          trigger={<button className="popup-button"><MdOutlineRemoveRedEye className='test-icon' /></button>}
+                                          position="right center"
+                                          contentStyle={{ padding: '0', border: 'none' }} // Optional inline styles to remove default padding/border
+                                        >
+                                          <div className="popup-content">
+                                            <h4>Main Script</h4>
+                                            {reformatCodeString(test.main)}
+                                            <h4>Input</h4>
+                                            <p className="popup-text">{test.stdin}</p>
+                                          </div>
+                                        </Popup>
+                                    </li>
                         )))}
                     </ul>
                     </div>
-                    <button className='tests-button' onClick={handleFileCompile} disabled={selectedAssignment === null}>Run Tests</button>
+                    <button className='tests-button' onClick={handleFileCompile} disabled={!selectedAssignment || submitted || submitting}>Run Tests</button>
                 </div>
                 <div className='upload-compile'>
                     {selectedAssignment && (
@@ -173,12 +208,10 @@ function Student({ studentId: propStudentId }) {
                                 </div>
                                 <div className="results-content">
                                     <span>Tests</span>
-                                        <div className="right-spans">
-                                        <span>Name</span>
-                                        <span>Output</span>
-                                        <span>Expected</span>
-                                        <span>Status</span>
-                                    </div>
+                                    <span>Name</span>
+                                    <span>Output</span>
+                                    <span>Expected</span>
+                                    <span>Status</span>
                                 </div>
                                 <ul>
                                 {results.length !== 0 && results.map((res) => (
@@ -190,6 +223,10 @@ function Student({ studentId: propStudentId }) {
                                     </li>
                                 ))}
                                 </ul>
+                                <div className="submit-button-container">
+                                    <p>{submitted? `Grade: ${grade}` : ''}</p>
+                                    <button className="submit-button" onClick={handleSubmit} disabled={!allTestsPassed || submitting || submitted}>{submitted? 'Submitted!' : submitting? 'submitting...' : 'Submit'}</button>
+                                </div>
                             </div>  
                         </div>
                     )}

@@ -2,35 +2,72 @@ import '../styles/lecturer.css';
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-// import { db } from '../config/firebase';
-// import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import Modal from '../components/Modal';
 import { IoAddCircleSharp } from "react-icons/io5";
 import { PiChalkboardTeacherFill } from "react-icons/pi";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiEditLine } from "react-icons/ri";
-// import AssignmentsTable from '../components/AssignmentsTab';
-// import Card from '../components/assCard';
-// import '../styles/popup.css';
+import { Circles } from 'react-loader-spinner';
 
 
 function Lecturer({ lecId: propLecId }) {
   const [lecId, setLecId] = useState(propLecId || localStorage.getItem('lecId'));
   const [lecturer, setLecturer] = useState([]);
   const [assignments, setAssignments] = useState([]);
-  // const [courseName, setCourseName] = useState('');
-  // const [assignmentName, setAssignmentName] = useState('');
-  // const [codeLanguage, setCodeLanguage] = useState('');
-  // const [dueDate, setDueDate] = useState('');
-  // const [studentIds, setStudentIds] = useState('');
+  const [addModal, setAddModale] = useState(false);
+  const [assignmentDetails, setAssignmentDetails] = useState({
+    name: '',
+    language: '',
+    course: '',
+    os: ''
+  });
+  const [errorMessage, setErrorMessage] = useState('All Good!');
   
-  // const [showAddForm, setShowAddForm] = useState(false);
-  // const [selectedExercise, setSelectedExercise] = useState(null);
 
 
   const navigate = useNavigate();
 
   const handleCardClick = (id) => {
     navigate(`/lecturer/${id}`);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setAssignmentDetails(prevDetails => ({
+        ...prevDetails,
+        [name]: value
+    }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const newAssignment = {
+        name: assignmentDetails.name,
+        course: assignmentDetails.course,
+        lang: assignmentDetails.language,
+        os: assignmentDetails.os,
+        lects: [],
+        students: [],
+        commands: [""],
+        subFilesNames: [""],
+        tests: []
+      };
+      const response = await axios.post('/api/assignment', newAssignment);
+      console.log('Assignment added:', response.data);
+      const assignmentId = response.data.id;
+      await axios.put(`/api/assignments/${assignmentId}/lecturers`, {
+        lecturers: [lecId]
+      });
+
+    console.log(`Lecturer ${lecId} added to assignment ${assignmentId}`);
+
+      // Close the modal after successful submission
+      setAddModale(false);
+      fetchData(lecId);
+    } catch (error) {
+        console.error('Error adding assignment:', error);
+        setErrorMessage('Failed to add assignment. Please try again.');
+    }
   };
 
   const handleLogout = (event) => {
@@ -77,54 +114,14 @@ useEffect(() => {
   fetchData(lecId);
 }, [lecId, navigate, fetchData]);
 
-  // const handleAddExercise = async (e) => {
-  //   e.preventDefault();
 
-  //   const studentIdArray = studentIds.split(',').map(id => id.trim());
-  //   try {
-  //     await addDoc(collection(db, "exercises"), {
-  //       courseName,
-  //       assignmentName,
-  //       codeLanguage,
-  //       dueDate,
-  //       studentIds: studentIdArray,
-  //     });
-  //     setCourseName('');
-  //     setAssignmentName('');
-  //     setCodeLanguage('');
-  //     setDueDate('');
-  //     setStudentIds('');
-  //     setShowAddForm(false); // Hide the add form after submission
-  //     fetchExercises(); // Refresh the list of exercises
-  //   } catch (error) {
-  //     console.error("Error adding exercise: ", error);
-  //   }
-  // };
-
-  // const fetchExercises = async () => {
-  //   const querySnapshot = await getDocs(collection(db, "assignments"));
-  //   setAssignments(querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-  // };
-
-  // const handleDeleteExercise = async (id) => {
-  //   await deleteDoc(doc(db, "exercises", id));
-  //   fetchExercises(); // Refresh the list after deletion
-  // };
-
-  // const handleSaveExercise = async (updatedExercise) => {
-  //   const exerciseDoc = doc(db, "exercises", updatedExercise.id);
-  //   await updateDoc(exerciseDoc, updatedExercise);
-  //   fetchExercises(); // Refresh the list after saving
-  // };
-
-  // const handleDefineTests = (exercise) => {
-  //   console.log("Define tests for exercise:", exercise);
-  // };
-
-  // const closePopup = () => {
-  //   setSelectedExercise(null);
-  // };
-
+  if (!lecturer || !assignments) {
+    return (
+      <div className="spinner-container">
+        <Circles height="80" width="80" color="rgb(10, 10, 101)" ariaLabel="loading" />
+      </div>
+    );
+  }
   return (
     
     <div className="teacher-container">
@@ -153,12 +150,67 @@ useEffect(() => {
             </div>
           </div>
         ))}
-        <div className='add-card'>
+        <div className='add-card' onClick={() => setAddModale(true)}>
           <IoAddCircleSharp size={90} style={{fill : 'rgb(10, 10, 101)'}}/>
             <h4>Add Assignment</h4>
         </div>
       </div>
-      {/* {showAddForm & } */}
+      <Modal isVisible={addModal} onClose={() => setAddModale(false)}>
+        <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+          <div>
+            <label>Name</label>
+            <input
+              type="text"
+              name="name"
+              value={assignmentDetails.name}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div>
+            <label>Course</label>
+            <input
+              type="text"
+              name="course"
+              value={assignmentDetails.course}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div>
+            <label>Language</label>
+            <select
+               name="language"
+               value={assignmentDetails.language}
+               onChange={handleInputChange}
+               required
+            >
+              <option value="" disabled>Select a language</option>
+              <option value="C">C</option>
+              <option value="C++">C++</option>
+              <option value="Java">Java</option>
+              <option value="Python">Python</option>
+            </select>
+          </div>
+          <div>
+            <label>OS</label>
+            <select
+              name="os"
+              value={assignmentDetails.os}
+              onChange={handleInputChange}
+              required
+            >
+              <option value="" disabled>Select an OS</option>
+              <option value="Windows">Windows</option>
+              <option value="Linux">Linux</option>
+            </select>
+          </div>
+          <div className="message">
+            <p className="error-message">{errorMessage}</p>
+          </div>
+          <button type="submit">Add</button>
+        </form>
+      </Modal>
     </div>
   );
 }

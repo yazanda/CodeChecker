@@ -1,8 +1,5 @@
 import React, { useState, useRef } from 'react';
-// import storage from '../config/firebase';
-// import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import '../comp styles/UploadArea.css'; 
-// import DownloadContext from '../providers/DownloadContext';
 import { MdDriveFolderUpload } from "react-icons/md";
 import { IoIosClose } from "react-icons/io";
 import axios from 'axios';
@@ -11,7 +8,6 @@ const UploadArea = ({userId, assId}) => {
     const [files, setFiles] = useState([]);
     const [uploading, setUploading] = useState(false);
     const dropAreaRef = useRef(null);
-    // const { addDownloadUrl } = useContext(DownloadContext);
 
     const handleFileSelect = (event) => {
         const selectedFiles = Array.from(event.target.files);
