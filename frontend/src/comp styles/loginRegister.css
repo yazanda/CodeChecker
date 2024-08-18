@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.log-container {
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.log-wrapper {
+    position: relative;
+    width: 420px;
+    height: 450px;
+    background: rgb(10, 10, 101);
+    border-radius: 10px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    transition: height .2s ease;
+}
+
+.log-wrapper.register {
+    height: 520px;
+}
+
+.log-wrapper .form-box {
+    width: 100%;
+    padding: 40px;
+}
+
+.log-wrapper .form-box.login {
+    transition: translate .18s ease;
+    translate: 0;
+}
+
+.log-wrapper.register .form-box.login {
+    transition: none;
+    translate: -400px;
+}
+
+.log-wrapper .form-box.register {
+    position: absolute;
+    translate: 400px;
+}
+
+.log-wrapper.register .form-box.register {
+    transition: translate .18s ease;
+    translate: 0;
+}
+
+.message {
+    color: red;
+}
+form h1 {
+    font-size: 36px;
+    text-align: center;
+}
+
+form .input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 30px 0;
+}
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, .1);
+    border-radius: 40px;
+    font-size: 16px;
+    color: #fff;
+    padding: 20px 45px 20px 20px;
+}
+
+.input-box input::placeholder {
+    color: #fff;
+}
+
+.input-box .log-icon {
+    position: absolute;
+    right: 20px;
+    top: 25px;
+    translate: 0 -50%;
+    font-size: 16px;
+}
+
+form .forgot {
+    display: flex;
+    justify-content: center;
+    margin: -15px 0 15px;
+}
+
+.forgot button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    text-decoration: none;
+    display: inline;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14.5px;
+}
+
+.forgot button:hover {
+    text-decoration: underline;
+}
+
+form .submit-button {
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 700;
+}
+
+form .register-link {
+    font-size: 14.5px;
+    text-align: center;
+    margin: 20px 0 15px;
+}
+
+.register-link p button{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    display: inline;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14.5px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.register-link p button:hover {
+    text-decoration: underline;
+}
